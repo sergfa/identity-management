@@ -7,9 +7,6 @@ from im.model.user import User
 from im.services.password_hash_service import PasswordHashingService
 from im.events.domain_event_publisher import DomainEventPublisher
 from im.events import UserRegisteredDomainEvent
-from im.validators.email_validator import EmailValidator
-from im.validators.password_validator import PasswordValidator
-from im.validators.username_validator import UsernameValidator
 
 
 class UserManagementService:
@@ -43,39 +40,17 @@ class UserManagementService:
         :return:  None
         """
 
-        if not UsernameValidator().validate(username):
-            raise ValueError(
-                "Username can consist of alphanumeric characters, minimum 4 and maximum 16 characters"
-            )
-
-        if not PasswordValidator().validate(password):
-            raise ValueError(
-                "Password must be minimum eight and maximum 16 characters, at least one uppercase "
-                "letter, one lowercase "
-                "letter, one number and one special character "
-            )
-
-        if not EmailValidator().validate(email):
-            raise ValueError("Email address in not correct")
-
-        hashed_password = self.pwd_hash_srv.hash_password(password)
-
-        new_user = User(
-            _uid=User.next_id(),
-            _username=username,
-            _password=hashed_password,
-            _email=email,
-            _token=User.next_id(),
+        new_user = User.create_user(
+            hash_srv=self.pwd_hash_srv,
+            username=username,
+            password=password,
+            email=email,
         )
 
-        user_with_username = self.user_repo.by_username(username)
-
-        if user_with_username is not None:
+        if self.user_repo.by_username(username) is not None:
             raise ValueError("User with specified username already exist")
 
-        user_with_email = self.user_repo.by_email(email=email)
-
-        if user_with_email is not None:
+        if self.user_repo.by_email(email=email) is not None:
             raise ValueError("User with specified email already exists")
 
         self.user_repo.insert(new_user)
