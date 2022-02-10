@@ -1,0 +1,7 @@
+Cerberus==1.3.4
+UUID==1.30
+redis==4.1.3
+click==8.0.3
+pylint==2.12.2
+pyment==0.3.3
+black==22.1.0
