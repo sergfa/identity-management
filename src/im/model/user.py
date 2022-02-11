@@ -49,7 +49,7 @@ class User(Entity):
         """Verify email with specified token
 
         :param token: str Token to verify
-        :param token: str: 
+        :param token: str:
         :returns: None
         :raises ValueError: if token is not valid
 
@@ -65,14 +65,10 @@ class User(Entity):
     ) -> "User":
         """Create an instance of the user from provided parameters, also hashes the password
 
-        :param hash_srv: A service to hash the password
-        :param username: A username
-        :param password: A plain password
-        :param email: An email address
-        :param hash_srv: PasswordHashingService: 
-        :param username: str: 
-        :param password: str: 
-        :param email: str: 
+        :param hash_srv: PasswordHashingService: A service to hash the password
+        :param username: str: A username
+        :param password: str: A plain password
+        :param email: str: An email address
         :returns: User
         :raises ValueError: if one of the specified parameters is not valid
 
