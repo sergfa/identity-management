@@ -12,9 +12,7 @@ from im.services.password_hash_service import PasswordHashingService
 
 @dataclass()
 class User(Entity):
-    """
-    A class to represent a user
-    """
+    """A class to represent a user"""
 
     _username: str = field()
     _password: str = field()
@@ -39,13 +37,23 @@ class User(Entity):
 
     @property
     def token(self) -> str:
+        """str: Get the verification token"""
         return self._token
 
     @property
     def email_verified(self) -> bool:
+        """bool: Get email verified flag"""
         return self._email_verified
 
-    def verify_email(self, token: str):
+    def verify_email(self, token: str) -> None:
+        """Verify email with specified token
+
+        :param token: str Token to verify
+        :param token: str: 
+        :returns: None
+        :raises ValueError: if token is not valid
+
+        """
         if token == self.token:
             self.email_verified = True
         else:
@@ -55,20 +63,19 @@ class User(Entity):
     def create_user(
         cls, hash_srv: PasswordHashingService, username: str, password: str, email: str
     ) -> "User":
-        """
-        Create an instance of the user from provided parameters, also hashes the password
+        """Create an instance of the user from provided parameters, also hashes the password
 
-        :param hash_srv:  A service to hash the password
-
+        :param hash_srv: A service to hash the password
         :param username: A username
-
         :param password: A plain password
-
         :param email: An email address
-
-        :return: User
-
+        :param hash_srv: PasswordHashingService: 
+        :param username: str: 
+        :param password: str: 
+        :param email: str: 
+        :returns: User
         :raises ValueError: if one of the specified parameters is not valid
+
         """
         if not UsernameValidator().validate(username):
             raise ValueError(
@@ -96,9 +103,10 @@ class User(Entity):
 
     @classmethod
     def next_id(cls) -> str:
-        """
-        str: Generate next id for a user
+        """str: Generate next id for a user
         Examples:
             user = User(User.next_id(), "name", "password", "email@example")
+
+
         """
         return str(uuid4())

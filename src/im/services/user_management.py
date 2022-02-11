@@ -40,12 +40,7 @@ class UserManagementService:
         :return:  None
         """
 
-        new_user = User.create_user(
-            hash_srv=self.pwd_hash_srv,
-            username=username,
-            password=password,
-            email=email,
-        )
+        new_user = User.create_user(hash_srv=self.pwd_hash_srv,username=username,password=password,email=email,)
 
         if self.user_repo.by_username(username) is not None:
             raise ValueError("User with specified username already exist")
