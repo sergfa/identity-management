@@ -11,7 +11,3 @@ class Entity(ABC):
     @property
     def uid(self) -> str:
         return self._uid
-
-    @classmethod
-    def next_id(cls) -> str:
-        pass

@@ -39,12 +39,15 @@ class UserManagementService:
 
         :return:  None
         """
+        hashed_password = User.generate_password(password, self.pwd_hash_srv)
 
-        new_user = User.create_user(
-            hash_srv=self.pwd_hash_srv,
-            username=username,
-            password=password,
-            email=email,
+        new_user = User(
+            _uid=self.user_repo.next_identifier(),
+            _username=username,
+            _password=hashed_password,
+            _email=email,
+            _email_verified=False,
+            _token=self.user_repo.next_identifier(),
         )
 
         if self.user_repo.by_username(username) is not None:

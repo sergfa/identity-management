@@ -2,6 +2,8 @@ import redis
 from redis.commands.json.path import Path
 import json
 from typing import Dict
+
+from im.model import Entity
 from im.model.user import User
 from im.repositories.users import UserRepository
 
@@ -35,7 +37,10 @@ class UserRedisRepository(UserRepository):
         user_data = self.mapper.user_to_data(user)
         self.client.json().set(self.root, Path.rootPath() + user.uid, user_data)
 
-    def remove(self, uid: str):
+    def update(self, entity: Entity) -> None:
+        self.update(entity)
+
+    def remove(self, uid: str) -> None:
         self.client.json().delete(self.root, Path.rootPath() + uid)
 
     def list(self) -> [User]:

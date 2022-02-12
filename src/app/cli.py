@@ -1,5 +1,5 @@
 import click
-from im.services.user_management import UserManagementService
+from app.services.user_management import UserManagementService
 from infra.redis_user_repository import UserRedisRepository
 from im.services.password_hash_service import PasswordHashingService
 from im.events.domain_event_publisher import DomainEventPublisher
